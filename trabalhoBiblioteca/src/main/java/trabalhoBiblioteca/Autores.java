@@ -1,4 +1,4 @@
-package biblioteca;
+package trabalhoBiblioteca;
 
 /*
     id bigint NOT NULL,
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Autores {
-    public static void main(String[] args){
+    public void cadastrarAutores(){
         Scanner ler = new Scanner(System.in);
         
         System.out.println("Informe os dados do autor.");
