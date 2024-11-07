@@ -16,7 +16,7 @@ public class Editoras {
     public void adicionaEditoras(){
         Scanner ler = new Scanner(System.in);
         
-        System.out.println("Informe os dados do autor.");
+        System.out.println("Informe os dados da editora.");
         System.out.print("Nome: ");
         String nome = ler.nextLine();        
         
