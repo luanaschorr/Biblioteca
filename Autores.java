@@ -1,4 +1,4 @@
-package trabalhoBiblioteca;
+package biblioteca;
 
 /*
     id bigint NOT NULL,

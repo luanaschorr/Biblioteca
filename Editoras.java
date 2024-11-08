@@ -1,4 +1,4 @@
-package trabalhoBiblioteca;
+package biblioteca;
 
 import java.util.Scanner;
 import java.sql.Connection;
