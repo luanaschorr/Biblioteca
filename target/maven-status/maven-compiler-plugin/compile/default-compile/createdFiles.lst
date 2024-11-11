@@ -1,4 +1,4 @@
-trabalhoBiblioteca\Editoras.class
-trabalhoBiblioteca\Autores.class
-trabalhoBiblioteca\ConexaoBanco.class
-trabalhoBiblioteca\Main.class
+biblioteca\Main.class
+biblioteca\ConexaoBanco.class
+biblioteca\Editoras.class
+biblioteca\Autores.class
