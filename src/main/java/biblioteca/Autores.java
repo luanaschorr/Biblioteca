@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Autores {
+
+
     public void cadastrarAutores(){
         Scanner ler = new Scanner(System.in);
         
