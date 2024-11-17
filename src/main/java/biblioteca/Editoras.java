@@ -43,8 +43,6 @@ public class Editoras {
 
         } catch (SQLException e) {
             System.out.println("Erro ao inserir editora: " + e.getMessage());
-        } finally {
-            ler.close();
         }
     }
 }

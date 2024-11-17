@@ -14,13 +14,13 @@ public class Main {
         do {
             System.out.println("__MENU PRINCIPAL__\n");
             System.out.println("Escolha o número da operação deseja realizar?");
-            System.out.println("1 - Cadastrar um livro");
-            System.out.println("2 - Cadastrar um periódico");
-            System.out.println("3 - Cadastrar um autor");
-            System.out.println("4 - Cadastrar uma editora");
-            System.out.println("5 - Cadastrar um aluno");
-            System.out.println("6 - Realizar Empréstimo");
-            System.out.println("7 - Cancelar empréstimo");
+            System.out.println("1 - Cadastrar um livro"); // Lucas
+            System.out.println("2 - Cadastrar um periódico"); // Lucas
+            System.out.println("3 - Cadastrar um autor"); // Luana - pronto
+            System.out.println("4 - Cadastrar uma editora"); // Luana - pronto
+            System.out.println("5 - Cadastrar um aluno"); //Henrique
+            System.out.println("6 - Realizar Empréstimo"); // Luana
+            System.out.println("7 - Cancelar empréstimo"); // Luana
             System.out.println("8 - Listar todos os empréstimos ativos");
             System.out.println("9 - Listar as devoluções");
             System.out.println("0 - Sair");
@@ -76,6 +76,8 @@ public class Main {
             case 8 -> {
                 System.out.println("Você selecionou a opção 8 - Listar todos os empréstimos ativos");
                 // exibe empréstimos
+                Emprestimos emprestimosAtivos = new Emprestimos();
+                emprestimosAtivos.mostrarEmprestimos();
 
             }
             
