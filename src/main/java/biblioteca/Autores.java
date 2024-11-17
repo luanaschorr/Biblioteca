@@ -8,6 +8,7 @@ package biblioteca;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -39,4 +40,28 @@ public class Autores {
             System.out.println("Erro ao inserir dados: " + e.getMessage());
         }
     }
+
+    /*______________--------------_______________-------------
+     * 
+     * 
+     *  faz busca no autor, pode alterar se quiser;
+    */
+    public long verificarAutorExistente(int autor) {
+    String sql = "SELECT id FROM tb_autores WHERE id = ?";
+    try (Connection conn = ConexaoBanco.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setInt(1, autor);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("id");  // Retorna o ID do autor existente
+        } else {
+            return -1;  // Retorna -1 se o autor não existir
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return -1;
+    }
+}
 }

@@ -30,15 +30,15 @@ public class Main {
             switch (option){
             case 1 -> {
                 System.out.println("Você selecionou a opção 1 - Cadastrar um livro");
-                // Livros novo_livro = new Livros();
-                // novo_livro.adicionarLivro();
+                Livros novo_livro = new Livros();
+                novo_livro.adicionarLivro();
 
            }
             case 2 -> {
                 
                 System.out.println("Você selecionou a opção 2 - Cadastrar um periódico");
-                // Periodicos novo_periodico = new Periodicos();
-                // novo_periodico.cadastraPeriodicos();
+                    Periodicos novo_periodico = new Periodicos();
+                    novo_periodico.cadastraPeriodicos();
 
             }
             case 3 -> { // FUNCIONANDO!

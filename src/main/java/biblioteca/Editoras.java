@@ -3,6 +3,7 @@ package biblioteca;
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Editoras {
@@ -45,6 +46,27 @@ public class Editoras {
             System.out.println("Erro ao inserir editora: " + e.getMessage());
         } finally {
             ler.close();
+        }
+    }
+public long verificarEditoraExistente(int id_editora) {
+     String sql = "SELECT id FROM tb_editoras WHERE id = ?";
+        
+    try (Connection conn = ConexaoBanco.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id_editora);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Retorna o ID da editora se ela existir
+                return rs.getLong("id");  
+            } else {
+                // Retorna -1 caso a editora não seja encontrada
+                return -1; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }
