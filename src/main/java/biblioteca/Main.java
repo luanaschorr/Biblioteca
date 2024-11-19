@@ -21,7 +21,7 @@ public class Main {
             System.out.println("5 - Cadastrar um aluno"); //Henrique
             System.out.println("6 - Realizar Empréstimo"); // Luana
             System.out.println("7 - Cancelar empréstimo"); // Luana
-            System.out.println("8 - Listar todos os empréstimos ativos");
+            System.out.println("8 - Listar todos os empréstimos ativos"); // Luana
             System.out.println("9 - Listar as devoluções");
             System.out.println("0 - Sair");
             option = ler.nextInt();
@@ -30,15 +30,15 @@ public class Main {
             switch (option){
             case 1 -> {
                 System.out.println("Você selecionou a opção 1 - Cadastrar um livro");
-                // Livros novo_livro = new Livros();
-                // novo_livro.adicionarLivro();
+                Livros novo_livro = new Livros();
+                novo_livro.adicionarLivro();
 
            }
             case 2 -> {
                 
                 System.out.println("Você selecionou a opção 2 - Cadastrar um periódico");
-                // Periodicos novo_periodico = new Periodicos();
-                // novo_periodico.cadastraPeriodicos();
+                    Periodicos novo_periodico = new Periodicos();
+                    novo_periodico.cadastraPeriodicos();
 
             }
             case 3 -> { // FUNCIONANDO!

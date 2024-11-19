@@ -9,7 +9,7 @@ public class ConexaoBanco{
         try {
             return DriverManager.getConnection("jdbc:postgresql://localhost:5432/Biblioteca",
                     "postgres",
-                    "postgreegay");
+                    "reds");
         } catch (SQLException e) {
             System.out.println("Erro ao conectar com o banco de dados: " + e.getMessage());
             return null;
