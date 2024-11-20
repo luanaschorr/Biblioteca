@@ -21,15 +21,19 @@ public class Autores {
         String nome = ler.nextLine();
         
         System.out.print("Sobrenome: ");
-        String sobrenome = ler.nextLine();        
+        String sobrenome = ler.nextLine(); 
+
+        System.out.print("Código: ");
+        String codigo = ler.nextLine();         
         
-        String sql = "INSERT INTO tb_autores (nome, sobrenome) VALUES (?, ?)";
+        String sql = "INSERT INTO tb_autores (nome, sobrenome,codigo) VALUES (?, ?, ?)";
         
         try(Connection conn = ConexaoBanco.getConnection();
             PreparedStatement stm = conn.prepareStatement(sql)){
             
             stm.setString(1, nome);
             stm.setString(2, sobrenome);
+            stm.setString(3, codigo);
 
             int linhasInseridas = stm.executeUpdate();
             if(linhasInseridas > 0){

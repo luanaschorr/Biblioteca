@@ -3,6 +3,9 @@ package biblioteca;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Alunos {
@@ -16,8 +19,18 @@ public class Alunos {
         System.out.print("Sobrenome: ");
         String sobrenome = ler.nextLine();
 
-        System.out.print("Data de nascimento (yyyy-mm-dd): ");
-        String dataNascimento = ler.nextLine();
+        System.out.print("Data de nascimento (dd/MM/yyyy): ");
+        String inputDate = ler.nextLine();
+
+        // Converte a entrada do usuário para LocalDate
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataNascimento = null;
+        try {
+            dataNascimento = LocalDate.parse(inputDate, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
+            return; // Encerra o programa em caso de erro
+        }
 
         System.out.print("Número do RG: ");
         String numeroRg = ler.nextLine();
@@ -39,7 +52,12 @@ public class Alunos {
 
             stm.setString(1, nome);
             stm.setString(2, sobrenome);
-            stm.setString(3, dataNascimento);
+
+            // Converte LocalDate para java.sql.Date
+            java.sql.Date sqlDate = java.sql.Date.valueOf(dataNascimento);
+            // Configura o parâmetro para a consulta
+            stm.setDate(3, sqlDate);
+
             stm.setString(4, numeroRg);
             stm.setString(5, numeroMatricula);
             stm.setString(6, cpf);
@@ -54,15 +72,3 @@ public class Alunos {
         }
     }
 }
-
-
-// // CREATE TABLE public.tb_alunos (
-//     id_aluno bigint NOT NULL,
-//     nome text NOT NULL,
-//     sobrenome text NOT NULL,
-//     data_nascimento date NOT NULL,
-//     numero_rg text NOT NULL,
-//     numero_matricula text NOT NULL,
-//     cpf text NOT NULL,
-//     telefone text NOT NULL
-// );

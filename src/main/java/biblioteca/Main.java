@@ -55,8 +55,8 @@ public class Main {
             }
             case 5 -> {
                 System.out.println("Você selecionou a opção 5 - Cadastrar um aluno");
-                // Alunos novo_aluno = new Alunos();
-                // novo_aluno.cadastraAlunos();
+                Alunos novo_aluno = new Alunos();
+                 novo_aluno.cadastrarAlunos();
 
             }
             
