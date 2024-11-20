@@ -26,7 +26,6 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.tb_autores (
     id bigint NOT NULL,
-    codigo text NOT NULL,
     nome text NOT NULL,
     sobrenome text NOT NULL
 );

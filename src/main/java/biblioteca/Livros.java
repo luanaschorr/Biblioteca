@@ -62,7 +62,9 @@ public class Livros {
         int n_dispo_exemplares = ler.nextInt(); 
 
         System.out.print("Local na estante: ");
-        int loc_estante = ler.nextInt(); 
+        int loc_estante = ler.nextInt();
+
+        // TRÊS PRIMEIRAS LETRAS DO SOBRENOME DO AUTOR + 1 DIGITO INT
 
         System.out.print("Número da estante do exemplar: ");
         int n_da_estante_exemplar = ler.nextInt(); 

@@ -64,7 +64,7 @@ public class Emprestimos {
             }
     
             // Inserir dados no empréstimo
-            String sql = "INSERT INTO tb_emprestimos (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, emp_n_da_estante, data_emprestimo) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tb_emprestimo (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, emp_n_da_estante, data_emprestimo) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stm = conn.prepareStatement(sql)) {
                 stm.setString(1, emp_nome_aluno);
                 stm.setString(2, emp_telefone_aluno);
@@ -83,7 +83,7 @@ public class Emprestimos {
         }
     }
     public void mostrarEmprestimos(){
-        String sqlSelect = "SELECT * FROM tb_emprestimos";
+        String sqlSelect = "SELECT * FROM tb_emprestimo";
         try(Connection conn = ConexaoBanco.getConnection()){
             try(PreparedStatement stm = conn.prepareStatement(sqlSelect)){
                 try(ResultSet rs = stm.executeQuery()){

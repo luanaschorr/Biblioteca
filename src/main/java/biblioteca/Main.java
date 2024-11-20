@@ -55,15 +55,15 @@ public class Main {
             }
             case 5 -> {
                 System.out.println("Você selecionou a opção 5 - Cadastrar um aluno");
-                // Alunos novo_aluno = new Alunos();
-                // novo_aluno.cadastraAlunos();
+                Alunos novo_aluno = new Alunos();
+                novo_aluno.cadastrarAlunos();
 
             }
             
             case 6 -> {
                 System.out.println("Você selecionou a opção 6 - Realizar Empréstimo");
-                // Emprestimos novo_emprestimo = new Emprestimos();
-                // novo_emprestimo.cadastraEmprestimos();
+                Emprestimos novo_emprestimo = new Emprestimos();
+                novo_emprestimo.realizarEmprestimo();
 
             }
             

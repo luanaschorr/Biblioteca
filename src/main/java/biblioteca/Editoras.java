@@ -56,10 +56,9 @@ public long verificarEditoraExistente(int id_editora) {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                // Retorna o ID da editora se ela existir
                 return rs.getLong("id");  
             } else {
-                // Retorna -1 caso a editora não seja encontrada
+                System.out.println("Editora nao encontrada.");
                 return -1; 
             }
         } catch (SQLException e) {
