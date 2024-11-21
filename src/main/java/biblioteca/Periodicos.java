@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class Periodicos {
         public void cadastraPeriodicos(){
-
-        Editoras editoras = new Editoras();
+        
+        Estante estante = new Estante(null);
         Autores autores = new Autores();
         Scanner ler = new Scanner(System.in);
 
@@ -19,6 +19,15 @@ public class Periodicos {
         System.out.println("ID do autor:");
         int id_autor = ler.nextInt();
         Long autor = autores.verificarAutorExistente(id_autor);
+        if (autor == null) {
+            System.out.println("Autor não encontrado. Abortando operação.");
+            return;
+        }
+        
+        String codigoEstante = autores.retornaAutor(id_autor);
+        System.out.println(codigoEstante);
+        int idEstante  = estante.verificaEstante(codigoEstante);
+
 
         System.out.print("Ano de Publicação: ");
         int ano_exemplar = ler.nextInt();
@@ -32,11 +41,10 @@ public class Periodicos {
         System.out.print("Numero de exemplares disponíveis: ");
         int n_dispo_exemplares = ler.nextInt(); 
 
-        System.out.print("Local na estante: ");
-        int loc_estante = ler.nextInt(); 
+        idEstante = ler.nextInt(); 
 
-        System.out.print("Número da estante do exemplar: ");
-        int n_da_estante_exemplar = ler.nextInt(); 
+    
+        int n_da_estante_exemplar = 0; 
 
 
         String sql = "INSERT INTO tb_periodicos (titulo_exemplar, ano_exemplar, n_da_estante_exemplar, n_total_exemplares, n_dispo_exemplares, loc_estante, per_volume, id_autor) " +
@@ -50,19 +58,40 @@ public class Periodicos {
         stm.setInt(3, n_da_estante_exemplar);  
         stm.setInt(4, n_total_exemplares);  
         stm.setInt(5, n_dispo_exemplares); 
-        stm.setInt(6, loc_estante);  
+        stm.setInt(6, idEstante);  
         stm.setLong(7, per_volume);  
         stm.setLong(8, autor);  
-      
+public void imprimirPeriodico() {
+        Estante estante = new Estante(null);
+        String sql = """
+            SELECT tb_periodicos.id_exemplar, 
+                tb_periodicos.titulo_exemplar, 
+                tb_autores.nome AS autor 
+            FROM tb_periodicos
+            JOIN tb_autores ON tb_periodicos.id_autor = tb_autores.id
+            """;
 
+            
+        try (Connection conn = ConexaoBanco.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+                
+            while (rs.next()) {
+                int id = rs.getInt("id_exemplar");
+                String titulo = rs.getString("titulo_exemplar");
+                String autor = rs.getString("autor");
+                //int estanteid = rs.getInt("estante");
+                //String resEstante = estante.retornaCodigo(estanteid);
+                System.out.println("ID: " + id);
+                System.out.println("Título: " + titulo);
+                System.out.println("Autor: " + autor);;
+                //System.out.println("Estante: " + resEstante);
 
-        int linhasInseridas = stm.executeUpdate();
-            if(linhasInseridas > 0){
-                 System.out.println("Inserção bem-sucedida!");
+                System.out.println("=====================================");
             }
-
+    
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir dados: " + e.getMessage());
+            System.out.println("Erro ao buscar os preidocos: " + e.getMessage());
         }
     }
 }
