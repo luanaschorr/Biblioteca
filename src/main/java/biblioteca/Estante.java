@@ -15,19 +15,18 @@ public class Estante {
     public String getEstante() {
         return estante;
     }
-
-    // Método para verificar ou criar uma estante com base no sobrenome
-    public String fazEstante(String sobrenome) {
-        String codigoEstante;
+    public String geraCodigo(String sobrenome){
         if (sobrenome.length() >= 3) {
-            codigoEstante = sobrenome.substring(0, 3).toUpperCase();  // Gera o código da estante
+            return sobrenome.substring(0, 3).toUpperCase(); 
         } else {
-            codigoEstante = sobrenome.toUpperCase();
+            return sobrenome.toUpperCase();
         }
+    }
+ 
+    public String fazEstante(String sobrenome) {
+        String codigoEstante = geraCodigo(sobrenome);
 
-        String sqlCheck = "SELECT codigo FROM tb_estantes_biblioteca WHERE codigo = ?";
-
-        // Verifica se a estante já existe no banco de dados
+        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE id_estate = ?";
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sqlCheck)) {
 
@@ -36,14 +35,13 @@ public class Estante {
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
                     System.out.println("Estante já existe: " + codigoEstante);
-                    return codigoEstante;  // Retorna o código da estante se já existe
+                    return codigoEstante; 
                 }
             }
         } catch (SQLException e) {
             System.out.println("Erro ao acessar o banco de dados: " + e.getMessage());
         }
 
-        // Se a estante não existir, cria uma nova
         String sqlInsert = "INSERT INTO tb_estantes_biblioteca (codigo) VALUES (?)";
 
         try (Connection conn = ConexaoBanco.getConnection();
@@ -57,7 +55,54 @@ public class Estante {
             System.err.println("Erro ao criar a estante: " + e.getMessage());
         }
 
-        return codigoEstante;  // Retorna o código da nova estante criada
+        return codigoEstante;  
+        
+    }
+
+    public int verificaEstante(String codigo) {
+        String subCodigo = geraCodigo(codigo);
+        System.out.println(subCodigo);
+        int id = 0;
+        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE codigo = ?";
+    
+        try (Connection conn = ConexaoBanco.getConnection();
+             PreparedStatement stm = conn.prepareStatement(sqlCheck)) {
+    
+            stm.setString(1, subCodigo); 
+    
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                     id = rs.getInt("id_estante");  
+                    System.out.println("Estante já existe: " + id);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro------ ao acessar o banco de dados: " + e.getMessage());
+        }
+    
+        return id;  
+    }
+    public String retornaCodigo(int id){
+        String codigo = null;
+        String sqlCheck = "SELECT codigo FROM tb_estantes_biblioteca WHERE id_estante = ?";
+    
+        try (Connection conn = ConexaoBanco.getConnection();
+             PreparedStatement stm = conn.prepareStatement(sqlCheck)) {
+    
+            stm.setInt(1, id); 
+    
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    codigo = rs.getString("id_estante");
+                      
+                }
+                
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro------ ao acessar o banco de dados: " + e.getMessage());
+        }
+        return codigo;
     }
 }
 
+    
