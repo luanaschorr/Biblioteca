@@ -66,4 +66,59 @@ public long verificarEditoraExistente(int id_editora) {
             return -1;
         }
     }
+
+    public String retornaEditora(int id_editora) {
+        String sql = "SELECT nome FROM tb_editoras WHERE id = ?";
+        
+        try (Connection conn = ConexaoBanco.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    
+            pstmt.setInt(1, id_editora);
+            ResultSet rs = pstmt.executeQuery();
+    
+            if (rs.next()) {
+                return rs.getString("nome");  
+            } else {
+                return "não existe"; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "erro na consulta";
+        }
+    }
+
+    public void listarEditoras() {
+        String sql = "SELECT id, nome, nacional FROM tb_editoras";
+
+        try (Connection conn = ConexaoBanco.getConnection();
+             PreparedStatement stm = conn.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+
+            boolean encontrou = false;
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                boolean nacional = rs.getBoolean("nacional");
+
+                System.out.println("ID: " + id);
+                System.out.println("Nome: " + nome);
+                if(nacional){
+                    System.out.println("Nacional");
+                } else{
+                    System.out.println("Internacional");
+                }
+                
+                System.out.println("===============================");
+                encontrou = true;
+            }
+
+            if (!encontrou) {
+                System.out.println("Nenhuma editora cadastrada.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar as editoras: " + e.getMessage());
+        }
+    }
 }
+
