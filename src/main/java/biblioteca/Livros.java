@@ -40,7 +40,7 @@ public class Livros {
             return; 
         }
 
-        System.out.println("ID do autor:");
+        System.out.print("ID do autor:");
         int id_autor = ler.nextInt();
         Long autor = autores.verificarAutorExistente(id_autor);
 
@@ -76,15 +76,15 @@ public class Livros {
         try (Connection conn = ConexaoBanco.getConnection();
         PreparedStatement stm = conn.prepareStatement(sql)) {
 
-        stm.setString(1, titulo);  
-        stm.setInt(2, ano_exemplar);  
+        stm.setString(1, titulo);
+        stm.setInt(2, ano_exemplar);
         stm.setInt(3, n_da_estante_exemplar);  
         stm.setInt(4, n_total_exemplares);  
         stm.setInt(5, n_dispo_exemplares); 
         stm.setInt(6, loc_estante);  
         stm.setLong(7, editoraV);  
         stm.setLong(8, autor);  
-        stm.setInt(9, edicao_livro);  
+        stm.setInt(9, edicao_livro);
 
 
         int linhasInseridas = stm.executeUpdate();
@@ -97,4 +97,3 @@ public class Livros {
         }
     }
 }
-

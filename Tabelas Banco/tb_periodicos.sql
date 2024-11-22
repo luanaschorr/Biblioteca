@@ -27,8 +27,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.tb_periodicos (
     issn bigint NOT NULL,
     per_volume integer NOT NULL
-)
-INHERITS (public.tb_exemplares);
+) INHERITS (public.tb_exemplares);
 
 
 ALTER TABLE public.tb_periodicos OWNER TO postgres;

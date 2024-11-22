@@ -21,15 +21,19 @@ public class Autores {
         String nome = ler.nextLine();
         
         System.out.print("Sobrenome: ");
-        String sobrenome = ler.nextLine();        
+        String sobrenome = ler.nextLine(); 
+
+        System.out.print("Código: ");
+        String codigo = ler.nextLine();         
         
-        String sql = "INSERT INTO tb_autores (nome, sobrenome) VALUES (?, ?)";
+        String sql = "INSERT INTO tb_autores (nome, sobrenome,codigo) VALUES (?, ?, ?)";
         
         try(Connection conn = ConexaoBanco.getConnection();
             PreparedStatement stm = conn.prepareStatement(sql)){
             
             stm.setString(1, nome);
             stm.setString(2, sobrenome);
+            stm.setString(3, codigo);
 
             int linhasInseridas = stm.executeUpdate();
             if(linhasInseridas > 0){
@@ -47,7 +51,7 @@ public class Autores {
      *  faz busca no autor, pode alterar se quiser;
     */
     public long verificarAutorExistente(int autor) {
-    String sql = "SELECT id FROM tb_autores WHERE id = ?";
+    String sql = "SELECT codigo_autor FROM tb_autores WHERE codigo_autor = ?";
     try (Connection conn = ConexaoBanco.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -55,7 +59,7 @@ public class Autores {
         ResultSet rs = pstmt.executeQuery();
 
         if (rs.next()) {
-            return rs.getInt("id");  // Retorna o ID do autor existente
+            return rs.getInt("codigo_autor");  // Retorna o ID do autor existente
         } else {
             return -1;  // Retorna -1 se o autor não existir
         }
