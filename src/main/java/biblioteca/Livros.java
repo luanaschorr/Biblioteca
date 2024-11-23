@@ -36,9 +36,9 @@ public class Livros {
             return;
         }
         
-        String codigoEstante = autores.retornaAutor(id_autor);
-        System.out.println(codigoEstante);
-        int idEstante  = estante.verificaEstante(codigoEstante);
+        String codigoEstante = autores.retornaAutorId(id_autor);
+    
+        int id_estante = estante.verificaEstante(codigoEstante);
         System.out.print("Edição: ");
         int edicao_livro = ler.nextInt();
 
@@ -51,11 +51,11 @@ public class Livros {
         System.out.print("Número de exemplares disponíveis: ");
         int n_dispo_exemplares = ler.nextInt();
 
-        int loc_estante = idEstante + 1;
+        int loc_estante = id_estante + 1;
 
         int n_da_estante_exemplar = 0;
 
-        String sqlInsert = "INSERT INTO tb_livros (titulo_exemplar, id_editora, autor_livro, id_estante, edicao_livro, ano_exemplar, n_total_exemplares, n_dispo_exemplares, loc_estante, n_da_estante_exemplar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO tb_livros (titulo_exemplar, id_editora, autor_livro, id_estante, edicao_livro, ano_exemplar, n_total_exemplares, n_dispo_exemplares) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sqlInsert)) {
@@ -63,13 +63,11 @@ public class Livros {
             stm.setString(1, titulo);
             stm.setInt(2, id_editora);
             stm.setInt(3, id_autor);
-            stm.setInt(4, idEstante);  
+            stm.setInt(4, id_estante);  
             stm.setInt(5, edicao_livro);
             stm.setInt(6, ano_exemplar);
             stm.setInt(7, n_total_exemplares);
             stm.setInt(8, n_dispo_exemplares);
-            stm.setInt(9, loc_estante);
-            stm.setInt(10, n_da_estante_exemplar);
 
             int linhasInseridas = stm.executeUpdate();
             if (linhasInseridas > 0) {
@@ -121,5 +119,3 @@ public class Livros {
     }
     
 }
-
-

@@ -36,7 +36,6 @@ public class Autores {
 
             int linhasInseridas = stm.executeUpdate();
             if(linhasInseridas > 0){
-                 System.out.println("Inserção bem-sucedida!");
             }
 
         } catch (SQLException e) {
@@ -49,7 +48,7 @@ public class Autores {
      *  faz busca no autor, pode alterar se quiser;
     */
     public long verificarAutorExistente(int autor) {
-    String sql = "SELECT codigo_autor FROM tb_autores WHERE codigo_autor = ?";
+    String sql = "SELECT id FROM tb_autores WHERE id = ?";
     try (Connection conn = ConexaoBanco.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -106,6 +105,4 @@ public void listarAutores() {
         System.out.println("Erro ao buscar autores: " + e.getMessage());
     }
 }
-
-
 }

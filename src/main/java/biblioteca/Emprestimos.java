@@ -20,7 +20,7 @@ public class Emprestimos {
     private String emp_telefone_aluno;
     private String emp_cpf_aluno;
     private String emp_titulo_exemplar;
-    private String emp_n_da_estante;
+    private int n_da_estante;
     private String data_emprestimo;
     public void realizarEmprestimo() {
         Scanner ler = new Scanner(System.in);
@@ -32,8 +32,8 @@ public class Emprestimos {
         this.emp_titulo_exemplar = ler.nextLine();
     
         // Consulta para obter o telefone e CPF do aluno
-        String alunoSql = "SELECT emp_nome_aluno, emp_telefone_aluno FROM tb_alunos WHERE emp_cpf_aluno = ?";
-        String livroSql = "SELECT emp_n_da_estante FROM tb_livros WHERE emp_titulo_exemplar = ?";
+        String alunoSql = "SELECT nome, telefone FROM tb_alunos WHERE cpf = ?";
+        String livroSql = "SELECT id_estante FROM tb_exemplares WHERE titulo_exemplar = ?";
     
         try (Connection conn = ConexaoBanco.getConnection()) {
             // Obter os dados do aluno
@@ -41,8 +41,8 @@ public class Emprestimos {
                 alunoStmt.setString(1, emp_cpf_aluno);
                 try (ResultSet alunoRs = alunoStmt.executeQuery()) {
                     if (alunoRs.next()) {
-                        this.emp_telefone_aluno = alunoRs.getString("emp_telefone_aluno");
-                        this.emp_nome_aluno = alunoRs.getString("emp_nome_aluno");
+                        this.emp_telefone_aluno = alunoRs.getString("telefone");
+                        this.emp_nome_aluno = alunoRs.getString("nome");
                     } else {
                         System.out.println("Aluno não encontrado.");
                         return;
@@ -50,12 +50,11 @@ public class Emprestimos {
                 }
             }
     
-            // Obter o número da estante do livro
             try (PreparedStatement livroStmt = conn.prepareStatement(livroSql)) {
                 livroStmt.setString(1, emp_titulo_exemplar);
                 try (ResultSet livroRs = livroStmt.executeQuery()) {
                     if (livroRs.next()) {
-                        this.emp_n_da_estante = livroRs.getString("emp_n_da_estante");
+                        this.n_da_estante = livroRs.getInt("id_estante");
                     } else {
                         System.out.println("Livro não encontrado.");
                         return;
@@ -64,14 +63,13 @@ public class Emprestimos {
             }
     
             // Inserir dados no empréstimo
-            String sql = "INSERT INTO tb_emprestimo (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, emp_n_da_estante, data_emprestimo) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tb_emprestimo (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, id_estante) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stm = conn.prepareStatement(sql)) {
                 stm.setString(1, emp_nome_aluno);
                 stm.setString(2, emp_telefone_aluno);
                 stm.setString(3, emp_cpf_aluno);
                 stm.setString(4, emp_titulo_exemplar);
-                stm.setString(5, emp_n_da_estante);
-                stm.setString(6, data_emprestimo);
+                stm.setInt(5, n_da_estante);
     
                 int linhasInseridas = stm.executeUpdate();
                 if (linhasInseridas > 0) {
@@ -92,7 +90,7 @@ public class Emprestimos {
                         System.out.println("Telefone: " + rs.getString("emp_telefone_aluno"));
                         System.out.println("CPF: " + rs.getString("emp_cpf_aluno"));
                         System.out.println("Título: " + rs.getString("emp_titulo_exemplar"));
-                        System.out.println("Nº da Estante: " + rs.getString("emp_n_da_estante"));
+                        System.out.println("Nº da Estante: " + rs.getInt("emp_n_da_estante"));
                         System.out.println("Data do Emprestimo: " + rs.getString("data_emprestimo"));                        
                     }
                 }                

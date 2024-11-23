@@ -1,5 +1,6 @@
 package biblioteca;
 
+import java.nio.channels.Pipe.SourceChannel;
 import java.util.Scanner;
 
 /**
@@ -32,6 +33,7 @@ public class Main {
                 System.out.println("Você selecionou a opção 1 - Cadastrar um livro");
                 Livros novo_livro = new Livros();
                 novo_livro.adicionarLivro();
+                // novo_livro.imprimirLivros();
 
            }
             case 2 -> {
@@ -64,7 +66,6 @@ public class Main {
                 System.out.println("Você selecionou a opção 6 - Realizar Empréstimo");
                 Emprestimos novo_emprestimo = new Emprestimos();
                 novo_emprestimo.realizarEmprestimo();
-
             }
             
             case 7 -> {

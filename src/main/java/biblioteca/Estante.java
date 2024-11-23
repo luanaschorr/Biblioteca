@@ -26,7 +26,7 @@ public class Estante {
     public String fazEstante(String sobrenome) {
         String codigoEstante = geraCodigo(sobrenome);
 
-        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE id_estate = ?";
+        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE id_estante = ?";
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sqlCheck)) {
 
@@ -34,7 +34,7 @@ public class Estante {
 
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
-                    System.out.println("Estante já existe: " + codigoEstante);
+                    System.out.println("Estante já existe! Nome: " + codigoEstante);
                     return codigoEstante; 
                 }
             }
@@ -55,8 +55,7 @@ public class Estante {
             System.err.println("Erro ao criar a estante: " + e.getMessage());
         }
 
-        return codigoEstante;  
-        
+        return codigoEstante;
     }
 
     public int verificaEstante(String codigo) {

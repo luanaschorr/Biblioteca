@@ -42,31 +42,24 @@ public class Periodicos {
         int n_total_exemplares = ler.nextInt(); 
         
         System.out.print("Numero de exemplares disponíveis: ");
-        int n_dispo_exemplares = ler.nextInt(); 
-
-        idEstante = ler.nextInt(); 
-
+        int n_dispo_exemplares = ler.nextInt();
     
         int n_da_estante_exemplar = 0; 
 
-
-        String sql = "INSERT INTO tb_periodicos (titulo_exemplar, issn, ano_exemplar, n_da_estante_exemplar, n_total_exemplares, n_dispo_exemplares, loc_estante, per_volume, id_autor) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tb_periodicos (titulo_exemplar, issn, ano_exemplar, n_total_exemplares, n_dispo_exemplares, per_volume, id_autor) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexaoBanco.getConnection();
         PreparedStatement stm = conn.prepareStatement(sql)) {
 
-        stm.setString(1, titulo);  
-        stm.setInt(2, ano_exemplar);
-        stm.setInt(3, ano_exemplar);  
-        stm.setInt(4, n_da_estante_exemplar);  
-        stm.setInt(5, n_total_exemplares);  
-        stm.setInt(6, n_dispo_exemplares); 
-        stm.setInt(7, idEstante);  
-        stm.setLong(8, per_volume);  
-        stm.setLong(9, autor);  
-      
-
+        stm.setString(1, titulo);
+        stm.setInt(2, issn);
+        stm.setInt(3, ano_exemplar);
+        stm.setInt(4, n_total_exemplares);
+        stm.setInt(5, n_dispo_exemplares);
+        stm.setLong(6, per_volume);
+        stm.setLong(7, autor);
+    
 
         int linhasInseridas = stm.executeUpdate();
             if(linhasInseridas > 0){
