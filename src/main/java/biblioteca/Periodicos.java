@@ -17,17 +17,62 @@ public class Periodicos {
         System.out.print("Titulo: ");
         String titulo = ler.nextLine();
 
-        System.out.println("ID do autor:");
-        int id_autor = ler.nextInt();
-        Long autor = autores.verificarAutorExistente(id_autor);
-        if (autor == null) {
-            System.out.println("Autor não encontrado. Abortando operação.");
+        System.out.print("Escolha uma opção: ");
+        int opcao = ler.nextInt();  
+        ler.nextLine(); 
+
+        int id_autor = 0; 
+
+        switch (opcao) {
+            case 1:
+                System.out.println("Você escolheu 'Listar Autores'.");
+                autores.listarAutores();
+
+                System.out.println("Digitar por ID:");
+                id_autor = ler.nextInt();
+                ler.nextLine();
+                Long autor = autores.verificarAutorExistente(id_autor);
+                if (autor == null || autor == -1) {
+                    System.out.println("Autor não encontrado.");
+                }
+                break; 
+
+            case 2:
+                System.out.println("Você escolheu 'Buscar Autor'.");
+                System.out.print("Digite o nome do autor para buscar: ");
+                String nomeAutor = ler.nextLine();
+                Long autorId = autores.buscarAutorPorNome(nomeAutor);
+                if (autorId != null) {
+                    System.out.println("Autor encontrado: " + nomeAutor);
+                    id_autor = autorId.intValue();
+                } else {
+                    System.out.println("Autor não encontrado.");
+                }
+                break;
+
+            case 3:
+                System.out.println("Digitar por ID:");
+                id_autor = ler.nextInt();
+                ler.nextLine();
+                
+                autor = autores.verificarAutorExistente(id_autor);
+                if (autor == null || autor == -1) {
+                    System.out.println("Autor não encontrado.");
+                }
+                break;
+
+            default:
+                System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                return;
+        }
+
+        if (id_autor == -1) {
+            System.out.println("Operação cancelada. Autor inválido.");
             return;
         }
-        
-        String codigoEstante = autores.retornaAutorId(id_autor);
-        System.out.println(codigoEstante);
-        int idEstante  = estante.verificaEstante(codigoEstante);
+
+        String codigoEstante = autores.retornaSobrenomeAutorId(id_autor);
+        int id_estante = estante.verificaEstante(codigoEstante);
 
         System.out.print("ISSN: ");
         int issn = ler.nextInt();
