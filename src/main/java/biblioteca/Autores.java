@@ -23,7 +23,6 @@ public class Autores {
         
         System.out.print("Sobrenome: ");
         String sobrenome = ler.nextLine();
-        estante.fazEstante(sobrenome);
         System.out.println("Autor cadastrado com sucesso.");        
         
         String sql = "INSERT INTO tb_autores (nome, sobrenome) VALUES (?, ?)";
@@ -66,7 +65,7 @@ public class Autores {
     }
 } 
 
-public String retornaAutorId(int autor) {
+public String retornaSobrenomeAutorId(int autor) {
     String sql = "SELECT sobrenome FROM tb_autores WHERE id = ?";
     try (Connection conn = ConexaoBanco.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -82,6 +81,28 @@ public String retornaAutorId(int autor) {
     } catch (SQLException e) {
         e.printStackTrace();
         return "Erro ao consultar autor"; 
+    }
+}
+public String buscarAutorPorId(int idAutor) {
+    String sql = "SELECT id,nome, sobrenome FROM tb_autores WHERE id = ?"; 
+
+    try (Connection conn = ConexaoBanco.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setInt(1, idAutor);  
+
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            
+            String nomeCompleto = rs.getString("nome") + " " + rs.getString("sobrenome");
+            return nomeCompleto;
+        } else {
+            return "Autor não encontrado";  
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return "Erro ao consultar autor";  
     }
 }
 
@@ -105,4 +126,25 @@ public void listarAutores() {
         System.out.println("Erro ao buscar autores: " + e.getMessage());
     }
 }
+
+public Long buscarAutorPorNome(String nome) {
+    String sql = "SELECT id FROM tb_autores WHERE nome = ?"; 
+    try (Connection conn = ConexaoBanco.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setString(1, nome);  
+
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            return rs.getLong("id"); 
+        } else {
+            return null; 
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null; 
+    }
+}
+
 }
