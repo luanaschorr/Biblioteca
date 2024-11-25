@@ -59,6 +59,7 @@ public long verificarEditoraExistente(int id_editora) {
                 return rs.getLong("id");  
             } else {
                 System.out.println("Editora nao encontrada.");
+                System.out.println("Abortando operacao!");
                 return -1; 
             }
         } catch (SQLException e) {

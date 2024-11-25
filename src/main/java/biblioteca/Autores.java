@@ -23,8 +23,7 @@ public class Autores {
         
         System.out.print("Sobrenome: ");
         String sobrenome = ler.nextLine();
-        estante.fazEstante(sobrenome);
-        System.out.println("Autor cadastrado com sucesso.");        
+        estante.fazEstante(sobrenome);      
         
         String sql = "INSERT INTO tb_autores (nome, sobrenome) VALUES (?, ?)";
         
@@ -36,12 +35,12 @@ public class Autores {
 
             int linhasInseridas = stm.executeUpdate();
             if(linhasInseridas > 0){
+                System.out.println("Autor cadastrado com sucesso.");  
             }
 
         } catch (SQLException e) {
             System.out.println("Erro ao inserir dados: " + e.getMessage());
         }
-        ler.close();
     }
 
     /*
@@ -64,45 +63,45 @@ public class Autores {
         e.printStackTrace();
         return -1;
     }
-} 
+    } 
 
-public String retornaAutorId(int autor) {
-    String sql = "SELECT sobrenome FROM tb_autores WHERE id = ?";
-    try (Connection conn = ConexaoBanco.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    public String retornaAutorId(int autor) {
+        String sql = "SELECT sobrenome FROM tb_autores WHERE id = ?";
+        try (Connection conn = ConexaoBanco.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-        pstmt.setInt(1, autor); 
-        ResultSet rs = pstmt.executeQuery();
+            pstmt.setInt(1, autor); 
+            ResultSet rs = pstmt.executeQuery();
 
-        if (rs.next()) {
-            return rs.getString("sobrenome");  
-                } else {
-            return "Autor não encontrado"; 
+            if (rs.next()) {
+                return rs.getString("sobrenome");  
+                    } else {
+                return "Autor não encontrado"; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Erro ao consultar autor"; 
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return "Erro ao consultar autor"; 
     }
-}
 
-public void listarAutores() {
-    String sql = "SELECT id, nome, sobrenome FROM tb_autores";
+    public void listarAutores() {
+        String sql = "SELECT id, nome, sobrenome FROM tb_autores";
 
-    try (Connection conn = ConexaoBanco.getConnection();
-         PreparedStatement stm = conn.prepareStatement(sql);
-         ResultSet rs = stm.executeQuery()) {
+        try (Connection conn = ConexaoBanco.getConnection();
+            PreparedStatement stm = conn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery()) {
 
-        while (rs.next()) {
-            int id = rs.getInt("id");
-            String nome = rs.getString("nome");
-            String sobrenome = rs.getString("sobrenome");
-            
-            System.out.println("ID: " + id);
-            System.out.println("Nome: " + nome + " " + sobrenome);
-            System.out.println("==========================");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                String sobrenome = rs.getString("sobrenome");
+                
+                System.out.println("ID: " + id);
+                System.out.println("Nome: " + nome + " " + sobrenome);
+                System.out.println("==========================");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar autores: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Erro ao buscar autores: " + e.getMessage());
     }
-}
 }

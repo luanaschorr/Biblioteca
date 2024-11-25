@@ -12,9 +12,6 @@ public class Estante {
         this.estante = estante;
     }
 
-    public String getEstante() {
-        return estante;
-    }
     public String geraCodigo(String sobrenome){
         if (sobrenome.length() >= 3) {
             return sobrenome.substring(0, 3).toUpperCase(); 
@@ -22,31 +19,30 @@ public class Estante {
             return sobrenome.toUpperCase();
         }
     }
- 
+
     public String fazEstante(String sobrenome) {
         String codigoEstante = geraCodigo(sobrenome);
-
-        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE id_estante = ?";
+    
+        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE codigo = ?";
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sqlCheck)) {
-
+    
             stm.setString(1, codigoEstante);
-
+    
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
-                    System.out.println("Estante já existe! Nome: " + codigoEstante);
-                    return codigoEstante; 
+                    return codigoEstante;
                 }
             }
         } catch (SQLException e) {
             System.out.println("Erro ao acessar o banco de dados: " + e.getMessage());
         }
-
+    
         String sqlInsert = "INSERT INTO tb_estantes_biblioteca (codigo) VALUES (?)";
-
+    
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
-
+    
             stmtInsert.setString(1, codigoEstante);
             stmtInsert.executeUpdate();
             estante = codigoEstante;
@@ -54,54 +50,47 @@ public class Estante {
         } catch (SQLException e) {
             System.err.println("Erro ao criar a estante: " + e.getMessage());
         }
-
+    
         return codigoEstante;
     }
 
-    public int verificaEstante(String codigo) {
-        String subCodigo = geraCodigo(codigo);
-        System.out.println(subCodigo);
-        int id = 0;
-        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE codigo = ?";
-    
+    public boolean verificaEstante(String codigo) {
+        String sqlCheck = "SELECT codigo FROM tb_estantes_biblioteca WHERE codigo = ?";
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sqlCheck)) {
-    
-            stm.setString(1, subCodigo); 
-    
+
+            stm.setString(1, codigo);
+
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
-                     id = rs.getInt("id_estante");  
-                    System.out.println("Estante já existe: " + id);
+                    System.out.println("Estante encontrada: Código " + codigo);
+                    return true;
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Erro------ ao acessar o banco de dados: " + e.getMessage());
+            System.err.println("Erro ao verificar a estante no banco de dados: " + e.getMessage());
         }
-    
-        return id;  
+        return false;
     }
-    public String retornaCodigo(int id){
-        String codigo = null;
-        String sqlCheck = "SELECT codigo FROM tb_estantes_biblioteca WHERE id_estante = ?";
-    
+
+    public int retornaIdEstante(String codigo) {
+        int idEstante = -1;
+        String sqlCheck = "SELECT id_estante FROM tb_estantes_biblioteca WHERE codigo = ?";
+
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sqlCheck)) {
-    
-            stm.setInt(1, id); 
-    
+
+            stm.setString(1, codigo);
+
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
-                    codigo = rs.getString("id_estante");
-                      
+                    idEstante = rs.getInt("id_estante");  // Recupera o ID da estante
                 }
-                
             }
         } catch (SQLException e) {
-            System.out.println("Erro------ ao acessar o banco de dados: " + e.getMessage());
+            System.out.println("Erro ao acessar o banco de dados: " + e.getMessage());
         }
-        return codigo;
+
+        return idEstante;  // Retorna o ID da estante (ou -1 se não encontrado)
     }
 }
-
-    

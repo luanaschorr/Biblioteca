@@ -2,6 +2,7 @@ package biblioteca;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,14 +23,13 @@ public class Alunos {
         System.out.print("Data de nascimento (dd/MM/yyyy): ");
         String inputDate = ler.nextLine();
 
-        // Converte a entrada do usuário para LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataNascimento = null;
         try {
             dataNascimento = LocalDate.parse(inputDate, formatter);
         } catch (DateTimeParseException e) {
             System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
-            return; // Encerra o programa em caso de erro
+            return;
         }
 
         System.out.print("Número do RG: ");
@@ -53,9 +53,7 @@ public class Alunos {
             stm.setString(1, nome);
             stm.setString(2, sobrenome);
 
-            // Converte LocalDate para java.sql.Date
             java.sql.Date sqlDate = java.sql.Date.valueOf(dataNascimento);
-            // Configura o parâmetro para a consulta
             stm.setDate(3, sqlDate);
 
             stm.setString(4, numeroRg);
@@ -69,6 +67,36 @@ public class Alunos {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao inserir dados: " + e.getMessage());
+        }
+    }
+    public void listarAlunos() {
+        String sql = "SELECT * FROM tb_alunos";
+
+        try (Connection conn = ConexaoBanco.getConnection();
+            PreparedStatement stm = conn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id_aluno");
+                String nome = rs.getString("nome");
+                String sobrenome = rs.getString("sobrenome");
+                String data_nascimento = rs.getString("data_nascimento");
+                String numero_rg = rs.getString("numero_rg");
+                String numero_matricula = rs.getString("numero_matricula");
+                String cpf = rs.getString("cpf");
+                String telefone = rs.getString("telefone");
+                
+                System.out.println("ID: " + id);
+                System.out.println("Nome: " + nome + " " + sobrenome);
+                System.out.println("Data nascimento: " + data_nascimento);
+                System.out.println("RG: " + numero_rg);
+                System.out.println("N° Matricula: " + numero_matricula);
+                System.out.println("CPF: " + cpf);
+                System.out.println("Telefone: " + telefone);
+                System.out.println("==========================");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar autores: " + e.getMessage());
         }
     }
 }
