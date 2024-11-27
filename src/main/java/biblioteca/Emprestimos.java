@@ -29,7 +29,6 @@ public class Emprestimos {
         String alunoSql = "SELECT nome, telefone FROM tb_alunos WHERE cpf = ?";
 
         try (Connection conn = ConexaoBanco.getConnection()) {
-            // Verifica se o aluno existe
             try (PreparedStatement alunoStmt = conn.prepareStatement(alunoSql)) {
                 alunoStmt.setString(1, emp_cpf_aluno);
                 try (ResultSet alunoRs = alunoStmt.executeQuery()) {
@@ -43,7 +42,6 @@ public class Emprestimos {
                 }
             }
 
-            // Verifica se o exemplar está disponível
             String livroSql = "SELECT disponivel, codigo_estante FROM tb_exemplares WHERE titulo_exemplar = ?";
 
             try (PreparedStatement livroStmt = conn.prepareStatement(livroSql)) {
@@ -64,7 +62,6 @@ public class Emprestimos {
                 }
             }
 
-            // Insere o empréstimo na tabela de empréstimos
             String sqlInsert = "INSERT INTO tb_emprestimo (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, codigo_estante) " +
                                "VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stm = conn.prepareStatement(sqlInsert)) {
@@ -77,20 +74,42 @@ public class Emprestimos {
                 int linhasInseridas = stm.executeUpdate();
                 if (linhasInseridas > 0) {
                     System.out.println("Inserção bem-sucedida!");
+                    atualizaDisponibilidadeEmprestimo();
                 }
             }
-
-            String sqlUpdate = "UPDATE tb_exemplares SET disponivel = FALSE WHERE titulo_exemplar = ?";
-            try (PreparedStatement dispoStm = conn.prepareStatement(sqlUpdate)) {
-                dispoStm.setString(1, emp_titulo_exemplar);
-                int linhasAtualizadas = dispoStm.executeUpdate();
-                if (linhasAtualizadas > 0) {
-                    System.out.println("Atualização de disponibilidade bem-sucedida!");
-                }
-            }
-
         } catch (SQLException e) {
             System.out.println("Erro ao inserir dados: " + e.getMessage());
+        }
+    }
+
+    public void atualizaDisponibilidadeEmprestimo(){
+        String sqlUpdate = "UPDATE tb_exemplares SET disponivel = FALSE WHERE titulo_exemplar = ?";
+
+        try (Connection conn = ConexaoBanco.getConnection()) {
+                try (PreparedStatement dispoStm = conn.prepareStatement(sqlUpdate)) {
+                    dispoStm.setString(1, emp_titulo_exemplar);
+                    int linhasAtualizadas = dispoStm.executeUpdate();
+                    if (linhasAtualizadas > 0) {
+                        System.out.println("Atualização de disponibilidade bem-sucedida!");
+                    }
+                }
+        } catch(SQLException e){
+            System.out.println("Erro ao atualizar disponibilidade.");
+        }
+    }
+    public void atualizaDisponibilidadeDevolucao(){
+        String sqlUpdate = "UPDATE tb_exemplares SET disponivel = TRUE WHERE titulo_exemplar = ?";
+
+        try (Connection conn = ConexaoBanco.getConnection()) {
+                try (PreparedStatement dispoStm = conn.prepareStatement(sqlUpdate)) {
+                    dispoStm.setString(1, emp_titulo_exemplar);
+                    int linhasAtualizadas = dispoStm.executeUpdate();
+                    if (linhasAtualizadas > 0) {
+                        System.out.println("Atualização de disponibilidade bem-sucedida!");
+                    }
+                }
+        } catch(SQLException e){
+            System.out.println("Erro ao atualizar disponibilidade.");
         }
     }
 
@@ -101,20 +120,20 @@ public class Emprestimos {
             try (PreparedStatement stm = conn.prepareStatement(sqlSelect)) {
                 try (ResultSet rs = stm.executeQuery()) {
                     while (rs.next()) {
+                        System.out.println("  ---- Dados do emprestimo ----");
+                        System.out.println("=================================");
                         System.out.println("Nome: " + rs.getString("emp_nome_aluno"));
                         System.out.println("Telefone: " + rs.getString("emp_telefone_aluno"));
                         System.out.println("CPF: " + rs.getString("emp_cpf_aluno"));
                         System.out.println("Título: " + rs.getString("emp_titulo_exemplar"));
-
+                        System.out.println("Código da Estante: " + rs.getString("codigo_estante"));
                         Date dataEmprestimo = rs.getTimestamp("data_emprestimo");
                         if (dataEmprestimo != null) {
                             System.out.println("Data do Empréstimo: " + sdf.format(dataEmprestimo));
                         } else {
                             System.out.println("Data do Empréstimo: Não disponível");
                         }
-
-                        System.out.println("Código da Estante: " + rs.getString("codigo_estante"));
-                        System.out.println("=======================================");
+                        System.out.println("=================================");
                     }
                 }
             }
@@ -122,4 +141,34 @@ public class Emprestimos {
             System.out.println("Erro ao selecionar dados: " + e.getMessage());
         }
     }
+    public void devolucaoExemplar() {
+        Scanner ler = new Scanner(System.in);
+    
+        System.out.println("Informe o CPF do aluno:");
+        this.emp_cpf_aluno = ler.nextLine();
+    
+        System.out.println("Informe o título do exemplar:");
+        this.emp_titulo_exemplar = ler.nextLine();
+    
+        String sqlDevolucao = "DELETE FROM tb_emprestimo WHERE emp_cpf_aluno = ? AND emp_titulo_exemplar = ?";
+    
+        try (Connection conn = ConexaoBanco.getConnection();
+             PreparedStatement stm = conn.prepareStatement(sqlDevolucao)) {
+    
+            stm.setString(1, emp_cpf_aluno);
+            stm.setString(2, emp_titulo_exemplar);
+    
+            int linhasAfetadas = stm.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("Devolução executada com sucesso!");
+                atualizaDisponibilidadeDevolucao();
+            } else {
+                System.out.println("Nenhum registro encontrado para exclusão.");
+            }
+    
+        } catch (SQLException e) {
+            System.out.println("Erro ao executar a devolução: " + e.getMessage());
+        }
+    }   
+
 }

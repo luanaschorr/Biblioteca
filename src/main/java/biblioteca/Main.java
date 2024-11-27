@@ -104,7 +104,7 @@ public class Main {
                 case 2 -> {
                     System.out.println("Você selecionou a opção 2 - Devolução");
                     Emprestimos devolucao = new Emprestimos();
-                    // devolucao.devolucaoExemplar(); // CRIAR
+                    devolucao.devolucaoExemplar();
                 }
                 case 3 -> {
                     System.out.println("Você selecionou a opção 3 - Listar todos os empréstimos ativos");

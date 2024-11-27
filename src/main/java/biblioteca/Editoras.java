@@ -121,24 +121,24 @@ public long verificarEditoraExistente(int id_editora) {
             System.out.println("Erro ao listar as editoras: " + e.getMessage());
         }
     }
-public int buscarEditoraPorNome(String nomeEditora) {
-    String sql = "SELECT id FROM tb_editoras  WHERE nome = ?"; 
-    try (Connection conn = ConexaoBanco.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    public Long buscarEditoraPorNome(String nomeEditora) {
+        String sql = "SELECT id FROM tb_editoras WHERE nome = ?"; 
+        try (Connection conn = ConexaoBanco.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-        pstmt.setString(1, nome);  
+            pstmt.setString(1, nomeEditora);  
 
-        ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
-        if (rs.next()) {
-            return rs.getLong("id"); 
-        } else {
-            return null; 
+            if (rs.next()) {
+                return rs.getLong("id"); 
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return null; 
     }
-}
 }
 
