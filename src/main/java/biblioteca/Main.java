@@ -21,7 +21,7 @@ public class Main {
             System.out.println("3 - Listar");
             System.out.println("0 - Sair");
             opInicial = ler.nextInt();
-            ler.nextLine(); // Consome a quebra de linha
+            ler.nextLine();
 
             switch (opInicial) {
                 case 1 -> menuCadastrar(ler);
