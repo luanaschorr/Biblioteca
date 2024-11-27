@@ -15,19 +15,21 @@ public class Emprestimos {
     private String emp_titulo_exemplar;
     private String cod_da_estante;
     private String data_emprestimo;
+    private boolean disponivel;
 
     public void realizarEmprestimo() {
         Scanner ler = new Scanner(System.in);
-    
+
         System.out.println("Informe o CPF do aluno:");
         this.emp_cpf_aluno = ler.nextLine();
-    
+
         System.out.println("Informe o título do exemplar:");
         this.emp_titulo_exemplar = ler.nextLine();
-    
+
         String alunoSql = "SELECT nome, telefone FROM tb_alunos WHERE cpf = ?";
 
         try (Connection conn = ConexaoBanco.getConnection()) {
+            // Verifica se o aluno existe
             try (PreparedStatement alunoStmt = conn.prepareStatement(alunoSql)) {
                 alunoStmt.setString(1, emp_cpf_aluno);
                 try (ResultSet alunoRs = alunoStmt.executeQuery()) {
@@ -41,38 +43,56 @@ public class Emprestimos {
                 }
             }
 
-        String livroSql = "SELECT codigo_estante FROM tb_exemplares WHERE titulo_exemplar = ?";
-    
+            // Verifica se o exemplar está disponível
+            String livroSql = "SELECT disponivel, codigo_estante FROM tb_exemplares WHERE titulo_exemplar = ?";
+
             try (PreparedStatement livroStmt = conn.prepareStatement(livroSql)) {
                 livroStmt.setString(1, emp_titulo_exemplar);
                 try (ResultSet livroRs = livroStmt.executeQuery()) {
                     if (livroRs.next()) {
-                        this.cod_da_estante = livroRs.getString("codigo_estante");
+                        this.disponivel = livroRs.getBoolean("disponivel");
+                        if (!disponivel) {
+                            System.out.println("Esse título já está emprestado!");
+                            return;
+                        } else {
+                            this.cod_da_estante = livroRs.getString("codigo_estante");
+                        }
                     } else {
                         System.out.println("Livro não encontrado.");
                         return;
                     }
                 }
             }
-    
-            String sql = "INSERT INTO tb_emprestimo (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, codigo_estante) " +
-                         "VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            // Insere o empréstimo na tabela de empréstimos
+            String sqlInsert = "INSERT INTO tb_emprestimo (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, codigo_estante) " +
+                               "VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement stm = conn.prepareStatement(sqlInsert)) {
                 stm.setString(1, emp_nome_aluno);
                 stm.setString(2, emp_telefone_aluno);
                 stm.setString(3, emp_cpf_aluno);
                 stm.setString(4, emp_titulo_exemplar);
                 stm.setString(5, cod_da_estante);
-    
+
                 int linhasInseridas = stm.executeUpdate();
                 if (linhasInseridas > 0) {
                     System.out.println("Inserção bem-sucedida!");
                 }
             }
+
+            String sqlUpdate = "UPDATE tb_exemplares SET disponivel = FALSE WHERE titulo_exemplar = ?";
+            try (PreparedStatement dispoStm = conn.prepareStatement(sqlUpdate)) {
+                dispoStm.setString(1, emp_titulo_exemplar);
+                int linhasAtualizadas = dispoStm.executeUpdate();
+                if (linhasAtualizadas > 0) {
+                    System.out.println("Atualização de disponibilidade bem-sucedida!");
+                }
+            }
+
         } catch (SQLException e) {
             System.out.println("Erro ao inserir dados: " + e.getMessage());
         }
-    }    
+    }
 
     public void listarEmprestimo() {
         String sqlSelect = "SELECT * FROM tb_emprestimo";
@@ -85,15 +105,15 @@ public class Emprestimos {
                         System.out.println("Telefone: " + rs.getString("emp_telefone_aluno"));
                         System.out.println("CPF: " + rs.getString("emp_cpf_aluno"));
                         System.out.println("Título: " + rs.getString("emp_titulo_exemplar"));
-                        
+
                         Date dataEmprestimo = rs.getTimestamp("data_emprestimo");
                         if (dataEmprestimo != null) {
-                            System.out.println("Data do Emprestimo: " + sdf.format(dataEmprestimo));
+                            System.out.println("Data do Empréstimo: " + sdf.format(dataEmprestimo));
                         } else {
-                            System.out.println("Data do Emprestimo: Não disponível");
+                            System.out.println("Data do Empréstimo: Não disponível");
                         }
-                        
-                        System.out.println("Codigo da Estante: " + rs.getString("codigo_estante"));
+
+                        System.out.println("Código da Estante: " + rs.getString("codigo_estante"));
                         System.out.println("=======================================");
                     }
                 }
