@@ -31,7 +31,8 @@ public class Livros {
         ler.nextLine();
 
         int id_editora = 0;
-        while (id_editora == 0) {
+        int id_autor = -1;
+        while (id_editora == 0) {    
             switch (opcao) {
                 case 1:
                     System.out.println("Listar Editora:");
@@ -76,8 +77,14 @@ public class Livros {
                     System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
                     return;
             }
-        }
 
+            if (id_editora == 0) {
+                System.out.println("Autor inválido.");
+                return;
+            }
+
+        id_autor = -1;
+        while (id_autor == -1) {
         System.out.println("""
             Escolha uma opção para inserir o Autor:
             1- Listar Autores.
@@ -87,15 +94,14 @@ public class Livros {
             """);
 
         System.out.print("Escolha uma opção: ");
-        opcao = ler.nextInt();
-        ler.nextLine();
+        opcao = ler.nextInt();  
+        ler.nextLine(); 
+ 
 
-        int id_autor = 0;
-        while (id_autor == 0) {
-            switch (opcao) {
-                case 1:
-                    System.out.println("Listar Autores:");
-                    autores.listarAutores();
+        switch (opcao) {
+        case 1:
+            System.out.println("Você escolheu 'Listar Autores'.");
+            autores.listarAutores();
 
                     System.out.print("Digite o ID do Autor: ");
                     id_autor = ler.nextInt();
@@ -137,7 +143,7 @@ public class Livros {
                     return;
             }
         }
-
+        }
         String sobrenomeAutor = autores.retornaSobrenomeAutorId(id_autor);
         String codigoEstante = estante.geraCodigo(sobrenomeAutor);
 
