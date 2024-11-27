@@ -18,12 +18,67 @@ public class Livros {
         System.out.print("Título: ");
         String titulo = ler.nextLine();
     
-        System.out.print("ID editora: ");
-        int idEditora = ler.nextInt();
-        long editoraV = editoras.verificarEditoraExistente(idEditora);
-        if (editoraV == -1) {
-            return;
-        }
+        System.out.println(
+"""Escolha uma opção para inserir a Editora:
+            1- Listar Editoras.
+            2- Buscar Editora.
+            3- Digitar por ID.
+            4- Voltar para o o menu
+            """);
+
+        System.out.print("Escolha uma opção: ");
+        int opcao = ler.nextInt();  
+        ler.nextLine(); 
+
+        int id_editora = 0; 
+        while (id_editora == 0) {    
+            switch (opcao) {
+                case 1:
+                    System.out.println("Listar Editora:");
+                    editoras.listarEditoras();
+
+                    System.out.println("Digitar o ID:");
+                    id_editora = ler.nextInt();
+                    ler.nextLine();
+                    Long autor = editoras.verificarEditoraExistente(id_editora);
+                    if (autor == null || autor == -1) {
+                        System.out.println("Editora não encontrado.");
+                    }
+                    break; 
+
+                case 2:
+                    System.out.println("Buscar Editora:");
+                    System.out.print("Digite o nome da Editora para buscar: ");
+                    String nomeEditora = ler.nextLine();
+                    Long autorId = autores.buscarAutorPorNome(nomeEditora);
+                    if (autorId != null) {
+                        System.out.println("Autor encontrado: " + nomeEditora);
+                        id_editora = autorId.intValue();
+                    } else {
+                        System.out.println("Editora não encontrado.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Digitar por ID:");
+                    id_editora = ler.nextInt();
+                    ler.nextLine();
+                    
+                    autor = editoras.verificarEditoraExistente(id_editora);
+                    if (autor == null || autor == -1) {
+                        System.out.println("Autor não encontrado.");
+                    }
+                    break;
+
+                default:
+                    System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                    return;
+            }
+
+            if (id_editora == 0) {
+                System.out.println("Autor inválido.");
+                return;
+            }
     
         System.out.println("""
 
