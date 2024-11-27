@@ -30,7 +30,7 @@ public class Livros {
         int opcao = ler.nextInt();  
         ler.nextLine(); 
 
-        int id_editora = 0; 
+        int id_editora = 0;
         while (id_editora == 0) {    
             switch (opcao) {
                 case 1:
@@ -79,7 +79,9 @@ public class Livros {
                 System.out.println("Autor inválido.");
                 return;
             }
-    
+
+        int id_autor = -1;
+        while (id_autor == -1) {
         System.out.println("""
 
         Escolha uma opição para inserir o autor:
@@ -92,8 +94,7 @@ public class Livros {
         System.out.print("Escolha uma opção: ");
         int opcao = ler.nextInt();  
         ler.nextLine(); 
-
-        int id_autor = 0; 
+ 
 
         switch (opcao) {
         case 1:
@@ -143,7 +144,7 @@ public class Livros {
         System.out.println("Operação cancelada. Autor inválido.");
         return;
         }
-    
+        }
         String sobrenomeAutor = autores.retornaSobrenomeAutorId(id_autor);
         String codigoEstante = estante.geraCodigo(sobrenomeAutor);
     
