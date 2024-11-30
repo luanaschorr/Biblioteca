@@ -17,6 +17,11 @@ public class Periodicos {
         System.out.print("Título: ");
         String titulo = ler.nextLine();
 
+        if (titulo.trim().isEmpty()) {
+            System.out.println("É necessário informar um título válido! Tente novamente.");
+            return;
+        }  
+
     int id_autor = -1;
         while (id_autor == -1) {
             System.out.println("""

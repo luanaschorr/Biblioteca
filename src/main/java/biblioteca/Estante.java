@@ -84,13 +84,13 @@ public class Estante {
 
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
-                    idEstante = rs.getInt("id_estante");  // Recupera o ID da estante
+                    idEstante = rs.getInt("id_estante");
                 }
             }
         } catch (SQLException e) {
             System.out.println("Erro ao acessar o banco de dados: " + e.getMessage());
         }
 
-        return idEstante;  // Retorna o ID da estante (ou -1 se não encontrado)
+        return idEstante;
     }
 }

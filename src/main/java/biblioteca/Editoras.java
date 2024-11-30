@@ -15,8 +15,13 @@ public class Editoras {
         
         System.out.println("Informe os dados da editora.");
         System.out.print("Nome: ");
-        this.nome = ler.nextLine();        
+        this.nome = ler.nextLine();
         
+        if (nome.trim().isEmpty()) {
+            System.out.println("É necessário informar um nome válido! Tente novamente.");
+            return;
+        }
+
         System.out.print("Essa editora é nacional? (S/N): ");
         String option = ler.nextLine();
         

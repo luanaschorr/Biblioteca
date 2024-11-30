@@ -24,7 +24,7 @@ public class Emprestimos {
         this.emp_cpf_aluno = ler.nextLine();
 
         System.out.println("Informe o título do exemplar:");
-        this.emp_titulo_exemplar = ler.nextLine();
+        this.emp_titulo_exemplar = ler.nextLine().toUpperCase();
 
         String alunoSql = "SELECT nome, telefone FROM tb_alunos WHERE cpf = ?";
 
@@ -36,7 +36,7 @@ public class Emprestimos {
                         this.emp_telefone_aluno = alunoRs.getString("telefone");
                         this.emp_nome_aluno = alunoRs.getString("nome");
                     } else {
-                        System.out.println("Aluno não encontrado.");
+                        System.out.println("Informações não encontradas.");
                         return;
                     }
                 }
@@ -56,7 +56,7 @@ public class Emprestimos {
                             this.cod_da_estante = livroRs.getString("codigo_estante");
                         }
                     } else {
-                        System.out.println("Livro não encontrado.");
+                        System.out.println("Informações do livro nao encontradas.");
                         return;
                     }
                 }
@@ -65,10 +65,10 @@ public class Emprestimos {
             String sqlInsert = "INSERT INTO tb_emprestimo (emp_nome_aluno, emp_telefone_aluno, emp_cpf_aluno, emp_titulo_exemplar, codigo_estante) " +
                                "VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stm = conn.prepareStatement(sqlInsert)) {
-                stm.setString(1, emp_nome_aluno);
+                stm.setString(1, emp_nome_aluno.toUpperCase());
                 stm.setString(2, emp_telefone_aluno);
                 stm.setString(3, emp_cpf_aluno);
-                stm.setString(4, emp_titulo_exemplar);
+                stm.setString(4, emp_titulo_exemplar.toUpperCase());
                 stm.setString(5, cod_da_estante);
 
                 int linhasInseridas = stm.executeUpdate();

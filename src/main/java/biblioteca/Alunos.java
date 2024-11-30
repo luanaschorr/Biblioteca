@@ -20,6 +20,11 @@ public class Alunos {
         System.out.print("Sobrenome: ");
         String sobrenome = ler.nextLine();
 
+        if (nome.trim().isEmpty() || sobrenome.trim().isEmpty()) {
+            System.out.println("Informação inválida! É necessário preencher todos os campos!");
+            return;
+        }  
+
         System.out.print("Data de nascimento (dd/MM/yyyy): ");
         String inputDate = ler.nextLine();
 
@@ -50,8 +55,8 @@ public class Alunos {
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql)) {
 
-            stm.setString(1, nome);
-            stm.setString(2, sobrenome);
+            stm.setString(1, nome.toUpperCase());
+            stm.setString(2, sobrenome.toUpperCase());
 
             java.sql.Date sqlDate = java.sql.Date.valueOf(dataNascimento);
             stm.setDate(3, sqlDate);

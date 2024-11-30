@@ -20,7 +20,8 @@ public class Main {
             System.out.println("2 - Empréstimo");
             System.out.println("3 - Listar");
             System.out.println("0 - Sair");
-            opInicial = ler.nextInt();
+            
+            opInicial = getValidInt(ler);
             ler.nextLine();
 
             switch (opInicial) {
@@ -46,7 +47,8 @@ public class Main {
             System.out.println("4 - Cadastrar uma editora");
             System.out.println("5 - Cadastrar um aluno");
             System.out.println("0 - Voltar");
-            option = ler.nextInt();
+
+            option = getValidInt(ler);
             ler.nextLine();
 
             switch (option) {
@@ -92,7 +94,8 @@ public class Main {
             System.out.println("2 - Devolução");
             System.out.println("3 - Listar todos os empréstimos ativos");
             System.out.println("0 - Voltar");
-            option = ler.nextInt();
+            
+            option = getValidInt(ler);
             ler.nextLine();
 
             switch (option) {
@@ -129,7 +132,8 @@ public class Main {
             System.out.println("3 - Listar todos os livros");
             System.out.println("4 - Listar todos os periodicos");
             System.out.println("0 - Voltar");
-            option = ler.nextInt();
+            
+            option = getValidInt(ler);
             ler.nextLine();
 
             switch (option) {
@@ -164,5 +168,17 @@ public class Main {
     private static void pause(Scanner ler) {
         System.out.println("\nPressione Enter para continuar...");
         ler.nextLine();
+    }
+
+    public static int getValidInt(Scanner scanner) {
+        while (true) {
+            try {
+                System.out.print("Digite sua escolha: ");
+                return scanner.nextInt();
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida! Por favor, digite apenas números.");
+                scanner.nextLine();
+            }
+        }
     }
 }

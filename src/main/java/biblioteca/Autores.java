@@ -23,15 +23,20 @@ public class Autores {
         
         System.out.print("Sobrenome: ");
         String sobrenome = ler.nextLine();
-        estante.fazEstante(sobrenome);      
+        estante.fazEstante(sobrenome);
+        
+        if (nome.trim().isEmpty() || sobrenome.trim().isEmpty()) {
+            System.out.println("Informação inválida!");
+            return;
+        }       
 
         String sql = "INSERT INTO tb_autores (nome, sobrenome) VALUES (?, ?)";
         
         try(Connection conn = ConexaoBanco.getConnection();
             PreparedStatement stm = conn.prepareStatement(sql)){
             
-            stm.setString(1, nome);
-            stm.setString(2, sobrenome);
+            stm.setString(1, nome.toUpperCase());
+            stm.setString(2, sobrenome.toUpperCase());
 
             int linhasInseridas = stm.executeUpdate();
             if(linhasInseridas > 0){
