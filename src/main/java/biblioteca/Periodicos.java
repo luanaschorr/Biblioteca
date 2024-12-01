@@ -135,9 +135,10 @@ public class Periodicos {
             SELECT tb_periodicos.id_exemplar, 
                    tb_periodicos.titulo_exemplar, 
                    tb_autores.nome AS autor,
-                   tb_periodicos.codigo_estante AS estante
+                   tb_periodicos.codigo_estante AS estante,
+                   tb_periodicos.disponivel
             FROM tb_periodicos
-            JOIN tb_autores ON tb_periodicos.id_autor = tb_autores.id
+            JOIN tb_autores ON tb_periodicos.id_autor = tb_autores.id;
             """;
 
         try (Connection conn = ConexaoBanco.getConnection();
@@ -149,11 +150,13 @@ public class Periodicos {
                 String titulo = rs.getString("titulo_exemplar");
                 String autor = rs.getString("autor");
                 String codigoEstante = rs.getString("estante");
+                boolean disponivel = rs.getBoolean("disponivel");
 
                 System.out.println("ID: " + id);
                 System.out.println("Título: " + titulo);
                 System.out.println("Autor: " + autor);
                 System.out.println("Estante: " + codigoEstante);
+                System.out.println("Disponivel " + (disponivel ? "Sim" : "Nao"));
                 System.out.println("=====================================");
             }
         } catch (SQLException e) {

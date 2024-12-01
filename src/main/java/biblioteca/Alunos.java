@@ -93,6 +93,7 @@ public class Alunos {
                 String cpf = rs.getString("cpf");
                 String telefone = rs.getString("telefone");
                 
+                System.out.println("==========================");
                 System.out.println("ID: " + id);
                 System.out.println("Nome: " + nome + " " + sobrenome);
                 System.out.println("Data nascimento: " + data_nascimento);

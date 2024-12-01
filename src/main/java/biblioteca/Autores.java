@@ -23,12 +23,13 @@ public class Autores {
         
         System.out.print("Sobrenome: ");
         String sobrenome = ler.nextLine();
-        estante.fazEstante(sobrenome);
         
         if (nome.trim().isEmpty() || sobrenome.trim().isEmpty()) {
             System.out.println("Informação inválida!");
             return;
-        }       
+        }
+
+        estante.fazEstante(sobrenome);
 
         String sql = "INSERT INTO tb_autores (nome, sobrenome) VALUES (?, ?)";
         

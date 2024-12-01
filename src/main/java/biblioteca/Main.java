@@ -17,8 +17,10 @@ public class Main {
     public static void menuPrincipal(Scanner ler){
         int opInicial;
         do {
-            System.out.println("Bem vindo ao Sistema Biblioteca!");
-            System.out.println("==============================");
+            System.out.println("\n         ================================");
+            System.out.println("         Bem vindo ao Sistema Biblioteca!");
+            System.out.println("         ================================");
+            System.out.println("\n              --- MENU INICIAL ---");
             System.out.println("Que tipo de operação você deseja realizar?");
             System.out.println("1 - Cadastrar");
             System.out.println("2 - Empréstimo");
@@ -57,27 +59,27 @@ public class Main {
 
             switch (option) {
                 case 1 -> {
-                    System.out.println("Você selecionou a opção 1 - Cadastrar um livro");
+                    System.out.println("\nVocê selecionou a opção 1 - Cadastrar um livro");
                     Livros novo_livro = new Livros();
                     novo_livro.adicionarLivro();
                 }
                 case 2 -> {
-                    System.out.println("Você selecionou a opção 2 - Cadastrar um periódico");
+                    System.out.println("\nVocê selecionou a opção 2 - Cadastrar um periódico");
                     Periodicos novo_periodico = new Periodicos();
                     novo_periodico.cadastraPeriodicos();
                 }
                 case 3 -> {
-                    System.out.println("Você selecionou a opção 3 - Cadastrar um autor");
+                    System.out.println("\nVocê selecionou a opção 3 - Cadastrar um autor");
                     Autores novo_autor = new Autores();
                     novo_autor.cadastrarAutores();
                 }
                 case 4 -> {
-                    System.out.println("Você selecionou a opção 4 - Cadastrar uma editora");
+                    System.out.println("\nVocê selecionou a opção 4 - Cadastrar uma editora");
                     Editoras nova_editora = new Editoras();
                     nova_editora.adicionaEditoras();
                 }
                 case 5 -> {
-                    System.out.println("Você selecionou a opção 5 - Cadastrar um aluno");
+                    System.out.println("\nVocê selecionou a opção 5 - Cadastrar um aluno");
                     Alunos novo_aluno = new Alunos();
                     novo_aluno.cadastrarAlunos();
                 }
@@ -104,17 +106,17 @@ public class Main {
 
             switch (option) {
                 case 1 -> {
-                    System.out.println("Você selecionou a opção 1 - Realizar um empréstimo");
+                    System.out.println("\nVocê selecionou a opção 1 - Realizar um empréstimo");
                     Emprestimos novo_emprestimo = new Emprestimos();
                     novo_emprestimo.realizarEmprestimo();
                 }
                 case 2 -> {
-                    System.out.println("Você selecionou a opção 2 - Devolução");
+                    System.out.println("\nVocê selecionou a opção 2 - Devolução");
                     Emprestimos devolucao = new Emprestimos();
                     devolucao.devolucaoExemplar();
                 }
                 case 3 -> {
-                    System.out.println("Você selecionou a opção 3 - Listar todos os empréstimos ativos");
+                    System.out.println("\nVocê selecionou a opção 3 - Listar todos os empréstimos ativos");
                     Emprestimos listaEmprestimos = new Emprestimos();
                     listaEmprestimos.listarEmprestimo();
                 }
@@ -142,22 +144,22 @@ public class Main {
 
             switch (option) {
                 case 1 -> {
-                    System.out.println("Você selecionou a opção 1 - Listar todos os alunos");
+                    System.out.println("\nVocê selecionou a opção 1 - Listar todos os alunos");
                     Alunos listaAlunos = new Alunos();
                     listaAlunos.listarAlunos();
                 }
                 case 2 -> {
-                    System.out.println("Você selecionou a opção 2 - Listar todos os autores");
+                    System.out.println("\nVocê selecionou a opção 2 - Listar todos os autores");
                     Autores listaAutores = new Autores();
                     listaAutores.listarAutores();
                 }
                 case 3 -> {
-                    System.out.println("Você selecionou a opção 3 - Listar todos os livros");
+                    System.out.println("\nVocê selecionou a opção 3 - Listar todos os livros");
                     Livros listarLivros = new Livros();
                     listarLivros.listarLivros();
                 }
                 case 4 -> {
-                    System.out.println("Você selecionou a opção 3 - Listar todos os periodicos");
+                    System.out.println("\nVocê selecionou a opção 3 - Listar todos os periodicos");
                     Periodicos listarPeriodicos = new Periodicos();
                     listarPeriodicos.listarPeriodicos();
                 }     

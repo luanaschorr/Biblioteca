@@ -57,13 +57,13 @@
 
                 switch (option) {
                     case 1 -> {
-                        System.out.println("Você selecionou a opção 1 - Listando livros disponíveis");
+                        System.out.println("Você selecionou a opção 1 - Listando livros");
                         Livros listaLivrosEmprestimo = new Livros();
                         listaLivrosEmprestimo.listarLivros();
                         continuar = false;
                     }
                     case 2 -> {
-                        System.out.println("Você selecionou a opção 2 - Listando periódicos disponíveis");
+                        System.out.println("Você selecionou a opção 2 - Listando periódicos");
                         Periodicos listaLivrosEmprestimo = new Periodicos();
                         listaLivrosEmprestimo.listarPeriodicos();
                         continuar = false;
@@ -159,6 +159,7 @@
                 try (PreparedStatement stm = conn.prepareStatement(sqlSelect)) {
                     try (ResultSet rs = stm.executeQuery()) {
                         while (rs.next()) {
+                            System.out.println("\n=================================");
                             System.out.println("  ---- Dados do emprestimo ----");
                             System.out.println("=================================");
                             System.out.println("Nome: " + rs.getString("emp_nome_aluno"));
@@ -172,7 +173,6 @@
                             } else {
                                 System.out.println("Data do Empréstimo: Não disponível");
                             }
-                            System.out.println("=================================");
                         }
                     }
                 }

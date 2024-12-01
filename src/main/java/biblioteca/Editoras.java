@@ -39,7 +39,7 @@ public class Editoras {
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql)) {
 
-            stm.setString(1, this.nome);
+            stm.setString(1, this.nome.toUpperCase());
             stm.setBoolean(2, this.nacional);
 
             int linhasInseridas = stm.executeUpdate();

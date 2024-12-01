@@ -12,8 +12,9 @@ public class Estante {
         this.estante = estante;
     }
 
+
     public String geraCodigo(String sobrenome){
-        if (sobrenome.length() >= 3) {
+         if (sobrenome.length() >= 3) {
             return sobrenome.substring(0, 3).toUpperCase(); 
         } else {
             return sobrenome.toUpperCase();

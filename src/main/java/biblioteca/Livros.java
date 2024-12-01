@@ -27,7 +27,7 @@ public class Livros {
 
         while (id_editora == 0) {
             System.out.println("""
-                Escolha uma opção para inserir a Editora:
+                \nEscolha uma opção para inserir a Editora:
                 1- Listar Editoras.
                 2- Buscar Editora.
                 3- Digitar por ID.
@@ -59,7 +59,7 @@ public class Livros {
                 case 2:
                     System.out.println("Buscar Editora:");
                     System.out.print("Digite o nome da Editora para buscar: ");
-                    String nomeEditora = ler.nextLine();
+                    String nomeEditora = ler.nextLine().toUpperCase();
         
                     Long idBusca = editoras.buscarEditoraPorNome(nomeEditora);
                     if (idBusca != null) {
@@ -126,7 +126,7 @@ public class Livros {
 
             case 2:
                 System.out.print("Digite o nome do autor para buscar: ");
-                String nomeAutor = ler.nextLine();
+                String nomeAutor = ler.nextLine().toUpperCase();
 
                 Long idAutorBuscado = autores.buscarAutorPorNome(nomeAutor);
                 if (idAutorBuscado != null && idAutorBuscado != -1) {
@@ -199,35 +199,38 @@ public class Livros {
 
     public void listarLivros() {
         String sql = """
-            SELECT tb_livros.id_exemplar, tb_livros.titulo_exemplar, tb_autores.nome AS autor, tb_editoras.nome AS editora,
-                   tb_estantes_biblioteca.codigo AS estante
+            SELECT tb_livros.id_exemplar, tb_livros.titulo_exemplar, tb_autores.nome AS autor, 
+                   tb_editoras.nome AS editora, tb_estantes_biblioteca.codigo AS estante, 
+                   tb_livros.disponivel
             FROM tb_livros
             JOIN tb_autores ON tb_livros.autor_livro = tb_autores.id
             JOIN tb_editoras ON tb_livros.id_editora = tb_editoras.id
             JOIN tb_estantes_biblioteca ON tb_livros.codigo_estante = tb_estantes_biblioteca.codigo;
-                """;
-            ;
+        """;
+    
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-
+    
             while (rs.next()) {
                 int id = rs.getInt("id_exemplar");
                 String titulo = rs.getString("titulo_exemplar");
                 String autor = rs.getString("autor");
                 String editora = rs.getString("editora");
                 String estante = rs.getString("estante");
-
+                boolean disponivel = rs.getBoolean("disponivel");
+    
                 System.out.println("ID: " + id);
                 System.out.println("Título: " + titulo);
                 System.out.println("Autor: " + autor);
                 System.out.println("Editora: " + editora);
                 System.out.println("Estante: " + estante);
+                System.out.println("Disponível: " + (disponivel ? "Sim" : "Não"));
                 System.out.println("=====================================");
             }
-
+    
         } catch (SQLException e) {
             System.out.println("Erro ao buscar os livros: " + e.getMessage());
         }
-    }
+    }      
 }
