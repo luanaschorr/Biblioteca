@@ -111,7 +111,7 @@ public class Periodicos {
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql)) {
 
-            stm.setString(1, titulo);
+            stm.setString(1, titulo.toUpperCase());
             stm.setInt(2, issn);
             stm.setInt(3, ano_exemplar);
             stm.setInt(4, per_volume);

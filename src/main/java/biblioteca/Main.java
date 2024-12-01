@@ -10,8 +10,12 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner ler = new Scanner(System.in);
-        int opInicial;
 
+        menuPrincipal(ler);
+    }
+    
+    public static void menuPrincipal(Scanner ler){
+        int opInicial;
         do {
             System.out.println("Bem vindo ao Sistema Biblioteca!");
             System.out.println("==============================");
@@ -40,7 +44,7 @@ public class Main {
         int option;
 
         do {
-            System.out.println("Escolha o número da operação deseja realizar:");
+            System.out.println("\nEscolha o número da operação deseja realizar:");
             System.out.println("1 - Cadastrar um livro");
             System.out.println("2 - Cadastrar um periódico");
             System.out.println("3 - Cadastrar um autor");
@@ -77,7 +81,7 @@ public class Main {
                     Alunos novo_aluno = new Alunos();
                     novo_aluno.cadastrarAlunos();
                 }
-                case 0 -> System.out.println("Voltando ao menu principal...");
+                case 0 -> System.out.println("Voltando ao menu principal...\n");
                 default -> System.out.println("Opção inválida! Tente novamente");
             }
 
@@ -89,7 +93,7 @@ public class Main {
         int option;
 
         do {
-            System.out.println("Escolha o número da operação deseja realizar:");
+            System.out.println("\nEscolha o número da operação deseja realizar:");
             System.out.println("1 - Realizar Empréstimo");
             System.out.println("2 - Devolução");
             System.out.println("3 - Listar todos os empréstimos ativos");
@@ -114,7 +118,7 @@ public class Main {
                     Emprestimos listaEmprestimos = new Emprestimos();
                     listaEmprestimos.listarEmprestimo();
                 }
-                case 0 -> System.out.println("Voltando ao menu principal...");
+                case 0 -> System.out.println("Voltando ao menu principal...\n");
                 default -> System.out.println("Opção inválida! Tente novamente");
             }
 
@@ -126,7 +130,7 @@ public class Main {
         int option;
 
         do {
-            System.out.println("Escolha o número da operação deseja realizar:");
+            System.out.println("\nEscolha o número da operação deseja realizar:");
             System.out.println("1 - Listar todos os alunos");
             System.out.println("2 - Listar todos os autores");
             System.out.println("3 - Listar todos os livros");
@@ -157,7 +161,7 @@ public class Main {
                     Periodicos listarPeriodicos = new Periodicos();
                     listarPeriodicos.listarPeriodicos();
                 }     
-                case 0 -> System.out.println("Voltando ao menu principal...");
+                case 0 -> System.out.println("Voltando ao menu principal...\n");
                 default -> System.out.println("Opção inválida! Tente novamente");
             }
 

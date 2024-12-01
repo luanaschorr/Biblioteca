@@ -33,8 +33,9 @@ public class Alunos {
         try {
             dataNascimento = LocalDate.parse(inputDate, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
-            return;
+            System.out.println("\nFormato de data inválido. Use o formato dia/mes/ano.");
+            System.out.println("Retornando ao menu inicial de cadastro.");
+            return;        
         }
 
         System.out.print("Número do RG: ");
@@ -72,6 +73,7 @@ public class Alunos {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao inserir dados: " + e.getMessage());
+            System.out.println("Retornando ao menu principal de cadastro.");
         }
     }
     public void listarAlunos() {
