@@ -124,6 +124,7 @@ public void listarAutores() {
             String nome = rs.getString("nome");
             String sobrenome = rs.getString("sobrenome");
             
+            System.out.println("\n==========================");
             System.out.println("ID: " + id);
             System.out.println("Nome: " + nome + " " + sobrenome);
             System.out.println("==========================");

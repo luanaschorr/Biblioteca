@@ -54,7 +54,7 @@ public class Periodicos {
         
                 case 2:
                     System.out.print("Digite o nome do autor para buscar: ");
-                    String nomeAutor = ler.nextLine();
+                    String nomeAutor = ler.nextLine().toUpperCase();
         
                     Long idAutorBuscado = autores.buscarAutorPorNome(nomeAutor);
                     if (idAutorBuscado != null && idAutorBuscado != -1) {
