@@ -14,4 +14,4 @@ IDE utilizada: VS Code
 SGBD: PgAdmin4
 
 Importante:
-Dentro do arquivo "conexaoBanco.java", a senha de acesso ao banco de dados atualmente é "postgreegay", então é necessário realizar a troca da senha de acordo com o postgree em sua máquina.    
+Dentro do arquivo "conexaoBanco.java", a senha de acesso ao banco de dados atualmente está vazia, então é necessário realizar a troca da senha de acordo com o postgree em sua máquina.    
